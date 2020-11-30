@@ -1,0 +1,22 @@
+body{
+  background: #1EA1F1;
+}
+
+.App {
+  display: flex;
+  max-width: 60%;
+  height: 100vh;
+  flex-direction: column;
+  margin: auto;
+  align-self: center;
+  align-items: center;
+  background-color: #FCFCFC;
+  color: #3D3D3D;
+}
+
+.delete{
+  margin: 10px;
+}
+.main {
+  text-align: center;
+}

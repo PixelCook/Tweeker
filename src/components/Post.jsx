@@ -5,8 +5,7 @@ const Post = (props) => {
     <>
       <section>
         <p>{props.content}</p>
-        <button className="btn btn-warning">Edit</button>
-        <button className="btn btn-danger">Delete</button>
+        <button className="btn btn-danger delete" onClick={() => props.deletePost(props.id)}>Delete</button>
       </section>
     </>
   );

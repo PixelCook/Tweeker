@@ -3,7 +3,7 @@ import React from "react";
 const NewPost = (props) => {
   return (
     <>
-      <form className="form-group" onSubmit={props.savePost}>
+      <form className="form-group main" onSubmit={props.savePost}>
         <h1>Create New Post</h1>
         <textarea
           onChange={props.saveContentState}
@@ -12,7 +12,8 @@ const NewPost = (props) => {
           cols="41"
           ref={props.getContent}
         ></textarea>
-        <button className="btn btn-dark">Twink It</button>
+        <br/>
+        <button className="btn btn-dark">Tweek It</button>
       </form>
     </>
   );

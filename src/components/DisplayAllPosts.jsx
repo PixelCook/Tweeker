@@ -9,9 +9,14 @@ const DisplayAllPosts = () => {
   // initialize useRef
   const getContent = useRef();
 
+  const saveContentState = (event) => {
+    setContent(event.target.value);
+    console.log(content);
+  };
+
   const toggleCreateNewPost = () => {
     setIsCreateNewPost(!isCreateNewPost)
-  }
+  };
 
   const savePost = (event) => {
     event.preventDefault();
@@ -19,12 +24,29 @@ const DisplayAllPosts = () => {
     setAllPosts([...allPosts, {content, id}]);
     getContent.current.value = "";
     toggleCreateNewPost()
-  }
-
-  const saveContentState = (event) => {
-    setContent(event.target.value);
-    console.log(content);
   };
+
+  const deletePost = id => {
+    const modifiedPost = allPosts.filter(eachPost => {
+      return eachPost.id !== id;
+    })
+    setAllPosts(modifiedPost);
+  };
+
+
+if (content.length > 144){
+  
+ return (
+   <>
+    Can't be longer than 144 characters
+    <NewPost
+      saveContentState={saveContentState}
+      getContent={getContent}
+      savePost={savePost}
+     />
+    </>
+ )
+}
   if(isCreateNewPost){
     return (
       <>
@@ -37,11 +59,11 @@ const DisplayAllPosts = () => {
     )
   }
   return (
-   <>
+   <div className="main">
    <h2>All Tweeks</h2>
    {!allPosts.length ?(
      <div>
-       <h3>No tweeks</h3>
+       <h3>No Tweeks to Display</h3>
      </div>
    ) : (   
    allPosts.map(eachPost => {
@@ -50,12 +72,13 @@ const DisplayAllPosts = () => {
      id={eachPost.id}
      key={eachPost.id}
      content={eachPost.content}
+     deletePost={deletePost}
      />
      );
    })
    )}
-   <button onClick={toggleCreateNewPost}>Tweek It</button>
-   </>
+   <button className="btn btn-dark" onClick={toggleCreateNewPost}>Tweek It</button>
+   </div>
   );
 };
 
