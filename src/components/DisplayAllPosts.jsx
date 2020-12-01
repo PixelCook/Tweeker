@@ -1,10 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import NewPost from "./NewPost";
 import Post from "./Post"
 
 const DisplayAllPosts = () => {
   const [content, setContent] = useState("");
-  const [allPosts, setAllPosts] = useState([]);
+  const saveditems = JSON.parse(localStorage.getItem('allPosts'))
+  const [allPosts, setAllPosts] = useState(saveditems || []);
   const [isCreateNewPost, setIsCreateNewPost] = useState(false);
   // initialize useRef
   const getContent = useRef();
@@ -33,20 +34,10 @@ const DisplayAllPosts = () => {
     setAllPosts(modifiedPost);
   };
 
+useEffect(() => {
+    localStorage.setItem('allPosts', JSON.stringify(allPosts));
+  }, [allPosts]);
 
-if (content.length > 144){
-  
- return (
-   <>
-    Can't be longer than 144 characters
-    <NewPost
-      saveContentState={saveContentState}
-      getContent={getContent}
-      savePost={savePost}
-     />
-    </>
- )
-}
   if(isCreateNewPost){
     return (
       <>
@@ -54,6 +45,7 @@ if (content.length > 144){
         saveContentState={saveContentState}
         getContent={getContent}
         savePost={savePost}
+        content={content}
       />
     </>
     )
@@ -81,5 +73,6 @@ if (content.length > 144){
    </div>
   );
 };
+
 
 export default DisplayAllPosts;

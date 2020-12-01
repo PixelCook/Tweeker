@@ -1,6 +1,7 @@
 import React from "react";
 
 const NewPost = (props) => {
+  
   return (
     <>
       <form className="form-group main" onSubmit={props.savePost}>
@@ -13,7 +14,7 @@ const NewPost = (props) => {
           ref={props.getContent}
         ></textarea>
         <br/>
-        <button className="btn btn-dark">Tweek It</button>
+        <button disabled={props.content.length>140 || props.content.length<5} className="btn btn-dark">Tweek It</button>
       </form>
     </>
   );
