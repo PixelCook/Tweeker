@@ -5,7 +5,7 @@ const NewPost = (props) => {
   return (
     <>
       <form className="form-group main" onSubmit={props.savePost}>
-        <h1>Create New Post</h1>
+        <h2>Tweek Bout 'It</h2>
         <textarea
           onChange={props.saveContentState}
           placeholder="Blog your heart out"

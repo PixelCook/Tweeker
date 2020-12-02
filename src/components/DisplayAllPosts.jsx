@@ -1,28 +1,87 @@
 import React, { useState, useRef, useEffect } from "react";
 import NewPost from "./NewPost";
 import Post from "./Post"
+import MyNavbar from "./NavBar"
+import Profile from "./Profile"
 
 const DisplayAllPosts = () => {
+
   const [content, setContent] = useState("");
-  const saveditems = JSON.parse(localStorage.getItem('allPosts'))
-  const [allPosts, setAllPosts] = useState(saveditems || []);
+  const [allPosts, setAllPosts] = useState([]);
   const [isCreateNewPost, setIsCreateNewPost] = useState(false);
+  const [profile, setProfile] = useState("");
+  const [isCreateNewProfile, setIsCreateNewProfile] = useState(true);
+  const [error, setError] = useState(false);
   // initialize useRef
   const getContent = useRef();
+  const getProfile = useRef();
+ 
+
+// -------------------Fetches
+  const URL = "https://micro-blogging-dot-full-stack-course-services.ew.r.appspot.com/tweet"
+
+// -------Get
+  useEffect(() => {
+    const getTweets = async () => {
+      const response = await fetch(URL)
+      if (!response.ok) {
+        const message = `An error has occurred: ${response.status}`
+        throw new Error(message)
+      }
+      const data = await response.json()
+      setAllPosts(data.tweets.reverse())
+    }
+    getTweets()
+  }, [])
+
+  const pushingTweets = async (newTweets) => {
+    setAllPosts(newTweets)
+    let lastTweet = newTweets.slice(-1)[0];
+    const result = await fetch(URL, {
+      method: 'POST',
+      body: JSON.stringify((lastTweet)),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    if (!result.ok) {
+      setError(!error)
+      throw new Error(`An error has occurred: ${result.status}`)
+    }
+    const response = await result.json()
+    allPosts.push(response)
+  }
+
+// -------------------Functionality 
+  const setProfileState = (event) => {
+    setProfile(event.target.value);
+  };
+  const toggleCreateNewProfile = () => {
+    setIsCreateNewProfile(!isCreateNewProfile)
+  };
 
   const saveContentState = (event) => {
     setContent(event.target.value);
-    console.log(content);
   };
 
   const toggleCreateNewPost = () => {
     setIsCreateNewPost(!isCreateNewPost)
-  };
+    };
+
+  const saveProfile = (event) => {
+    event.preventDefault();
+    setProfile(profile)
+    toggleCreateNewProfile();
+  }
 
   const savePost = (event) => {
     event.preventDefault();
-    const id = Date.now()
-    setAllPosts([...allPosts, {content, id}]);
+    const newPost = {}
+    newPost.content = content
+    newPost.userName = profile
+    newPost.date = new Date().toISOString();
+    pushingTweets([...allPosts, newPost]);
     getContent.current.value = "";
     toggleCreateNewPost()
   };
@@ -34,11 +93,24 @@ const DisplayAllPosts = () => {
     setAllPosts(modifiedPost);
   };
 
-useEffect(() => {
-    localStorage.setItem('allPosts', JSON.stringify(allPosts));
-  }, [allPosts]);
 
-  if(isCreateNewPost){
+
+// -------------------Conditional Renders 
+  if(isCreateNewProfile){
+    return (
+      <>
+      <Profile 
+      setProfileState = {setProfileState}
+      profile = {profile}
+      setProfile = {setProfile}
+      getProfile = {getProfile}
+      saveProfile = {saveProfile}
+      />
+      </>
+    )
+  }
+
+  if(!isCreateNewPost){
     return (
       <>
       <NewPost
@@ -50,26 +122,33 @@ useEffect(() => {
     </>
     )
   }
+
+  
+// -------------------Standard Renders
   return (
    <div className="main">
-   <h2>All Tweeks</h2>
+     <MyNavbar />
+     
+   <h2 className="allTweeks">Tweeker</h2>
+   <button className="btn btn-dark button" onClick={toggleCreateNewPost}>Tweek Yo self</button>
    {!allPosts.length ?(
      <div>
        <h3>No Tweeks to Display</h3>
      </div>
    ) : (   
-   allPosts.map(eachPost => {
+   allPosts.slice(0).reverse().map(eachPost => {
      return (
      <Post
      id={eachPost.id}
      key={eachPost.id}
      content={eachPost.content}
+     date={eachPost.date}
+     userName={eachPost.userName}
      deletePost={deletePost}
      />
      );
    })
    )}
-   <button className="btn btn-dark" onClick={toggleCreateNewPost}>Tweek It</button>
    </div>
   );
 };
