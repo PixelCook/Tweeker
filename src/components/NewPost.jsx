@@ -1,9 +1,11 @@
 import React from "react";
+import ParticlesBg from "particles-bg";
 
 const NewPost = (props) => {
-  
   return (
     <>
+      <ParticlesBg type="lines" bg={true} />
+
       <form className="form-group main" onSubmit={props.savePost}>
         <h2>Tweek Bout 'It</h2>
         <textarea
@@ -13,8 +15,10 @@ const NewPost = (props) => {
           cols="41"
           ref={props.getContent}
         ></textarea>
-        <br/>
-        <button disabled={props.content.length>140 || props.content.length<5} className="btn btn-dark">Tweek It</button>
+        <br />
+        <button disabled={props.content.length > 140} className="btn btn-dark">
+          Tweek It
+        </button>
       </form>
     </>
   );

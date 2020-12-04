@@ -1,5 +1,6 @@
 import "./App.css";
 import DisplayAllPosts from "./components/DisplayAllPosts";
+import MyNavbar from "./components/NavBar";
 
 function App() {
   return (
