@@ -17,7 +17,6 @@ const MyNavbar = () => {
           <Route path="/newPost" component={NewPost} />
           <Route path="/profile" component={Profile} />
         </Switch>
-
         <Navbar sticky="top" bg="dark" variant="dark">
           <Navbar.Brand href="">Tweeker</Navbar.Brand>
           <Nav className="mr-auto">

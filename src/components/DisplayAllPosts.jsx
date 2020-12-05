@@ -2,8 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import NewPost from "./NewPost";
 import Post from "./Post";
 import Profile from "./Profile";
-import MyNavBar from "./NavBar";
-import ParticlesBg from "particles-bg";
 
 const DisplayAllPosts = () => {
   const [content, setContent] = useState("");
@@ -126,8 +124,6 @@ const DisplayAllPosts = () => {
   // -------------------Standard Renders
   return (
     <>
-      <ParticlesBg type="lines" bg={false} />
-
       <div className="main">
         <h2 className="allTweeks">Tweeker</h2>
         <button className="btn btn-dark button" onClick={toggleCreateNewPost}>
@@ -143,14 +139,16 @@ const DisplayAllPosts = () => {
             .reverse()
             .map((eachPost) => {
               return (
-                <Post
-                  id={eachPost.id}
-                  key={eachPost.id}
-                  content={eachPost.content}
-                  date={eachPost.date}
-                  userName={eachPost.userName}
-                  deletePost={deletePost}
-                />
+                <>
+                  <Post
+                    id={eachPost.id}
+                    key={eachPost.id}
+                    content={eachPost.content}
+                    date={eachPost.date}
+                    userName={eachPost.userName}
+                    deletePost={deletePost}
+                  />
+                </>
               );
             })
         )}

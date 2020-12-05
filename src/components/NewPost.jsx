@@ -1,11 +1,8 @@
 import React from "react";
-import ParticlesBg from "particles-bg";
 
 const NewPost = (props) => {
   return (
     <>
-      <ParticlesBg type="lines" bg={true} />
-
       <form className="form-group main" onSubmit={props.savePost}>
         <h2>Tweek Bout 'It</h2>
         <textarea
