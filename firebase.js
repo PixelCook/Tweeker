@@ -1,52 +1,26 @@
-var provider = new firebase.auth.GoogleAuthProvider();
-firebase
-  .auth()
-  .signInWithPopup(provider)
-  .then(function (result) {
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    var token = result.credential.accessToken;
-    // The signed-in user info.
-    var user = result.user;
-    // ...
+var firebaseConfig = {
+  apiKey: "AIzaSyDCr9fdiziJj5L9Wc8-dW3eWJe1VDclbMg",
+  authDomain: "tweeker-d8213.firebaseapp.com",
+  projectId: "tweeker-d8213",
+  storageBucket: "tweeker-d8213.appspot.com",
+  messagingSenderId: "830715937417",
+  appId: "1:830715937417:web:72a435ebe0eee5830abc58",
+  measurementId: "G-5XK6ZE84XP",
+};
+var db = firebase.firestore();
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
+
+db.collection("users")
+  .add({
+    first: "Ada",
+    last: "Lovelace",
+    born: 1815,
+  })
+  .then(function (docRef) {
+    console.log("Document written with ID: ", docRef.id);
   })
   .catch(function (error) {
-    // Handle Errors here.
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    // The email of the user's account used.
-    var email = error.email;
-    // The firebase.auth.AuthCredential type that was used.
-    var credential = error.credential;
-    // ...
-  });
-firebase
-  .auth()
-  .getRedirectResult()
-  .then(function (result) {
-    if (result.credential) {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      var token = result.credential.accessToken;
-      // ...
-    }
-    // The signed-in user info.
-    var user = result.user;
-  })
-  .catch(function (error) {
-    // Handle Errors here.
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    // The email of the user's account used.
-    var email = error.email;
-    // The firebase.auth.AuthCredential type that was used.
-    var credential = error.credential;
-    // ...
-  });
-firebase
-  .auth()
-  .signOut()
-  .then(function () {
-    // Sign-out successful.
-  })
-  .catch(function (error) {
-    // An error happened.
+    console.error("Error adding document: ", error);
   });
