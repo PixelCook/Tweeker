@@ -7,12 +7,6 @@ const Post = (props) => {
         <h3>{props.content}</h3>
         <p>{props.date}</p>
         <p>{props.userName}</p>
-        <button
-          className="btn btn-danger delete"
-          onClick={() => props.deletePost(props.id)}
-        >
-          Delete
-        </button>
       </section>
     </>
   );

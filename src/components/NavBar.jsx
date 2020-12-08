@@ -2,17 +2,10 @@ import React from "react";
 import { Navbar } from "react-bootstrap";
 import { Nav } from "react-bootstrap";
 import "react-router-dom";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import DisplayAllPosts from "./DisplayAllPosts";
-import DisplayProfile from "./DisplayProfile";
+
 
 const MyNavbar = () => {
-  <Router>
-    <Switch>
-      <Route path="/displayallposts" component={DisplayAllPosts} />
-      <Route path="/displayprofile" component={DisplayProfile} />
-    </Switch>
-  </Router>;
+  
   return (
     <>
       <Navbar sticky="top" bg="dark" variant="dark">
